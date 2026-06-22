@@ -8,7 +8,10 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
+    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+    "upload": "opennextjs-cloudflare build && opennextjs-cloudflare upload",
+    "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
     "lint": "eslint . --no-inline-config",
     "format": "prettier 'src/**/*.{js,ts,jsx,tsx}' --write"
   },
@@ -55,11 +58,11 @@
     "remark-math": "^6.0.0",
     "swr": "^2.4.1",
     "use-clipboard-copy": "^0.2.0",
-    "use-constant": "^2.0.0",
-    "wrangler": "^4.76.0"
+    "use-constant": "^2.0.0"
   },
   "devDependencies": {
-    "@cloudflare/next-on-pages": "^1.13.16",
+    "@opennextjs/cloudflare": "latest",
+    "wrangler": "^4.76.0",
     "@eslint/eslintrc": "^3.3.5",
     "@eslint/js": "^10.0.1",
     "@tailwindcss/postcss": "^4.2.2",
@@ -85,10 +88,6 @@
     "vercel": "50.35.0"
   },
   "overrides": {
-    "vercel": "$vercel"
-  },
-  "prettier": {
-    "printWidth": 120,
     "arrowParens": "avoid",
     "singleQuote": true,
     "semi": false,

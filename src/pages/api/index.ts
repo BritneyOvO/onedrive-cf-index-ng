@@ -182,8 +182,8 @@ export default async function handler(req: Request): Promise<Response> {
   // TODO: Set edge function caching for faster load times
 
   // If method is GET, then the API is a normal request to the OneDrive API for files or folders
-  const requestUrl = getRequestUrl(req)
-  const { path = '/', next = '', sort = '' } = Object.fromEntries(requestUrl.searchParams)
+  const parsedUrl = getRequestUrl(req)
+  const { path = '/', next = '', sort = '' } = Object.fromEntries(parsedUrl.searchParams)
 
   // Sometimes the path parameter is defaulted to '[...path]' which we need to handle
   if (path === '[...path]') {

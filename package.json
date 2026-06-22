@@ -91,10 +91,5 @@
     "plugins": [
       "prettier-plugin-tailwindcss"
     ]
-  },
-  "pnpm": {
-    "overrides": {
-      "esbuild": "0.25.0"
-    }
   }
 }

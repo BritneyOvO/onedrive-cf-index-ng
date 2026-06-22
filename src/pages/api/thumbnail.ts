@@ -15,8 +15,8 @@ export default async function handler(req: Request): Promise<Response> {
   }
 
   // Get item thumbnails by its path since we will later check if it is protected
-  const requestUrl = getRequestUrl(req)
-  const { path = '', size = 'medium', odpt = '' } = Object.fromEntries(requestUrl.searchParams)
+  const parsedUrl = getRequestUrl(req)
+  const { path = '', size = 'medium', odpt = '' } = Object.fromEntries(parsedUrl.searchParams)
 
   // TODO: Set edge function caching for faster load times, if route is not protected
   // if (odpt === '') res.setHeader('Cache-Control', apiConfig.cacheControlHeader)

@@ -121,8 +121,8 @@ export default async function handler(req: Request): Promise<Response> {
     return new Response('OPDS is disabled.', { status: 404 })
   }
 
-  const requestUrl = getRequestUrl(req)
-  const { path = '/', next = '', sort = '', odpt = '' } = Object.fromEntries(requestUrl.searchParams)
+  const parsedUrl = getRequestUrl(req)
+  const { path = '/', next = '', sort = '', odpt = '' } = Object.fromEntries(parsedUrl.searchParams)
   if (path === '[...path]') {
     return new Response(JSON.stringify({ error: 'No path specified.' }), { status: 400 })
   }
@@ -185,7 +185,7 @@ export default async function handler(req: Request): Promise<Response> {
       items = [identityData as DriveItem]
     }
 
-    const origin = requestUrl.origin
+    const origin = parsedUrl.origin
     const updated = toUpdated(identityData.lastModifiedDateTime)
     const isRootPath = normalizedPath === '/'
     const baseParams = !isRootPath ? { path: cleanPath } : {}

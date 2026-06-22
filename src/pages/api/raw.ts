@@ -11,8 +11,8 @@ export default async function handler(req: Request): Promise<Response> {
     return new Response(JSON.stringify({ error: 'No access token.' }), { status: 403 })
   }
 
-  const requestUrl = getRequestUrl(req)
-  const { path = '/', odpt = '', proxy = false } = Object.fromEntries(requestUrl.searchParams)
+  const parsedUrl = getRequestUrl(req)
+  const { path = '/', odpt = '', proxy = false } = Object.fromEntries(parsedUrl.searchParams)
 
   // Sometimes the path parameter is defaulted to '[...path]' which we need to handle
   if (path === '[...path]') {

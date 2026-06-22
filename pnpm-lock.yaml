@@ -211,7 +211,7 @@ importers:
         specifier: 50.35.0
         version: 50.35.0(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)(typescript@6.0.2)
       wrangler:
-        specifier: ^4.76.0
+        specifier: ^4.103.0
         version: 4.103.0(@cloudflare/workers-types@4.20260621.1)
 
 packages:

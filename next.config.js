@@ -4,3 +4,5 @@ module.exports = {
     ignoreDuringBuilds: true,
   },
 }
+
+import('@opennextjs/cloudflare').then(m => m.initOpenNextCloudflareForDev());

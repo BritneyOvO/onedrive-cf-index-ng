@@ -91,5 +91,8 @@
     "plugins": [
       "prettier-plugin-tailwindcss"
     ]
+  },
+  "resolutions": {
+    "esbuild": "0.25.0"
   }
 }

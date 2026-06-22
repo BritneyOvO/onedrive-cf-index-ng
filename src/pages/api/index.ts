@@ -7,7 +7,8 @@ import siteConfig from '../../../config/site.config'
 import { getAuthPersonInfo, revealObfuscatedToken } from '../../utils/oAuthHandler'
 import { compareHashedToken } from '../../utils/protectedRouteHandler'
 import { getOdAuthTokens, storeOdAuthTokens } from '../../utils/odAuthTokenStore'
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
+import { getRequestUrl } from '../../utils/requestUrl'
 
 const basePath = pathPosix.resolve('/', siteConfig.baseDirectory)
 const clientSecret = revealObfuscatedToken(apiConfig.obfuscatedClientSecret)
@@ -155,7 +156,7 @@ export async function checkAuthRoute(
   return { code: 200, message: 'Authenticated.' }
 }
 
-export default async function handler(req: NextRequest): Promise<Response> {
+export default async function handler(req: Request): Promise<Response> {
   // If method is POST, then the API is called by the client to store acquired tokens
   if (req.method === 'POST') {
     const { accessToken, accessTokenExpiry, refreshToken } = await req.json()
@@ -181,7 +182,8 @@ export default async function handler(req: NextRequest): Promise<Response> {
   // TODO: Set edge function caching for faster load times
 
   // If method is GET, then the API is a normal request to the OneDrive API for files or folders
-  const { path = '/', next = '', sort = '' } = Object.fromEntries(req.nextUrl.searchParams)
+  const requestUrl = getRequestUrl(req)
+  const { path = '/', next = '', sort = '' } = Object.fromEntries(requestUrl.searchParams)
 
   // Sometimes the path parameter is defaulted to '[...path]' which we need to handle
   if (path === '[...path]') {

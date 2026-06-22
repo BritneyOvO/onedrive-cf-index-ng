@@ -1,10 +1,10 @@
 import axios from 'redaxios'
-import type { NextApiRequest, NextApiResponse } from 'next'
 
 import { encodePath, getAccessToken } from '.'
 import apiConfig from '../../../config/api.config'
 import siteConfig from '../../../config/site.config'
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
+import { getRequestUrl } from '../../utils/requestUrl'
 
 /**
  * Sanitize the search query
@@ -26,12 +26,13 @@ function sanitiseQuery(query: string): string {
   return encodeURIComponent(sanitisedQuery)
 }
 
-export default async function handler(req: NextRequest): Promise<Response> {
+export default async function handler(req: Request): Promise<Response> {
   // Get access token from storage
   const accessToken = await getAccessToken()
 
   // Query parameter from request
-  const { q: searchQuery = '' } = Object.fromEntries(req.nextUrl.searchParams)
+  const requestUrl = getRequestUrl(req)
+  const { q: searchQuery = '' } = Object.fromEntries(requestUrl.searchParams)
 
   // TODO: Set edge function caching for faster load times
 

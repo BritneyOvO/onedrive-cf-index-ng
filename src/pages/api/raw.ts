@@ -3,15 +3,16 @@ import axios from 'redaxios'
 
 import { driveApi, cacheControlHeader } from '../../../config/api.config'
 import { encodePath, getAccessToken, checkAuthRoute } from '.'
-import { NextRequest } from 'next/server'
+import { getRequestUrl } from '../../utils/requestUrl'
 
-export default async function handler(req: NextRequest): Promise<Response> {
+export default async function handler(req: Request): Promise<Response> {
   const accessToken = await getAccessToken()
   if (!accessToken) {
     return new Response(JSON.stringify({ error: 'No access token.' }), { status: 403 })
   }
 
-  const { path = '/', odpt = '', proxy = false } = Object.fromEntries(req.nextUrl.searchParams)
+  const requestUrl = getRequestUrl(req)
+  const { path = '/', odpt = '', proxy = false } = Object.fromEntries(requestUrl.searchParams)
 
   // Sometimes the path parameter is defaulted to '[...path]' which we need to handle
   if (path === '[...path]') {

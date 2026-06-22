@@ -5,9 +5,9 @@ import axios from 'redaxios'
 
 import { checkAuthRoute, encodePath, getAccessToken } from '.'
 import apiConfig from '../../../config/api.config'
-import { NextRequest } from 'next/server'
+import { getRequestUrl } from '../../utils/requestUrl'
 
-export default async function handler(req: NextRequest): Promise<Response> {
+export default async function handler(req: Request): Promise<Response> {
   const accessToken = await getAccessToken()
 
   if (!accessToken) {
@@ -15,7 +15,8 @@ export default async function handler(req: NextRequest): Promise<Response> {
   }
 
   // Get item thumbnails by its path since we will later check if it is protected
-  const { path = '', size = 'medium', odpt = '' } = Object.fromEntries(req.nextUrl.searchParams)
+  const requestUrl = getRequestUrl(req)
+  const { path = '', size = 'medium', odpt = '' } = Object.fromEntries(requestUrl.searchParams)
 
   // TODO: Set edge function caching for faster load times, if route is not protected
   // if (odpt === '') res.setHeader('Cache-Control', apiConfig.cacheControlHeader)

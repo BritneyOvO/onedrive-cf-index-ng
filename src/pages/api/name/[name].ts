@@ -1,6 +1,5 @@
 import { default as rawFileHandler } from '../raw'
-import { NextRequest } from 'next/server'
 
-export default async function handler(req: NextRequest): Promise<Response> {
+export default async function handler(req: Request): Promise<Response> {
   return rawFileHandler(req)
 }

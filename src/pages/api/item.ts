@@ -2,14 +2,16 @@ import axios from 'redaxios'
 
 import { getAccessToken } from '.'
 import apiConfig from '../../../config/api.config'
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
+import { getRequestUrl } from '../../utils/requestUrl'
 
-export default async function handler(req: NextRequest): Promise<Response> {
+export default async function handler(req: Request): Promise<Response> {
   // Get access token from storage
   const accessToken = await getAccessToken()
 
   // Get item details (specifically, its path) by its unique ID in OneDrive
-  const { id = '' } = Object.fromEntries(req.nextUrl.searchParams)
+  const requestUrl = getRequestUrl(req)
+  const { id = '' } = Object.fromEntries(requestUrl.searchParams)
 
   // TODO: Set edge function caching for faster load times
 

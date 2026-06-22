@@ -4,7 +4,7 @@ import axios from 'redaxios'
 import apiConfig from '../../../config/api.config'
 import siteConfig from '../../../config/site.config'
 import { checkAuthRoute, encodePath, getAccessToken } from '.'
-import { NextRequest } from 'next/server'
+import { getRequestUrl } from '../../utils/requestUrl'
 
 const defaultExtensions = ['.epub', '.pdf', '.mobi', '.azw3', '.azw', '.cbz', '.cbr']
 const extensionMimeTypes: Record<string, string> = {
@@ -115,13 +115,14 @@ const buildWebUrl = (origin: string, rawPath: string) => {
   return url.toString()
 }
 
-export default async function handler(req: NextRequest): Promise<Response> {
+export default async function handler(req: Request): Promise<Response> {
   const opdsConfig = getOpdsConfig()
   if (!opdsConfig.enabled) {
     return new Response('OPDS is disabled.', { status: 404 })
   }
 
-  const { path = '/', next = '', sort = '', odpt = '' } = Object.fromEntries(req.nextUrl.searchParams)
+  const requestUrl = getRequestUrl(req)
+  const { path = '/', next = '', sort = '', odpt = '' } = Object.fromEntries(requestUrl.searchParams)
   if (path === '[...path]') {
     return new Response(JSON.stringify({ error: 'No path specified.' }), { status: 400 })
   }
@@ -184,7 +185,7 @@ export default async function handler(req: NextRequest): Promise<Response> {
       items = [identityData as DriveItem]
     }
 
-    const origin = req.nextUrl.origin
+    const origin = requestUrl.origin
     const updated = toUpdated(identityData.lastModifiedDateTime)
     const isRootPath = normalizedPath === '/'
     const baseParams = !isRootPath ? { path: cleanPath } : {}

@@ -84,7 +84,7 @@
     "typescript": "6.0.2",
     "vercel": "50.35.0"
   },
-  "overrides": {
+  "prettier": {
     "arrowParens": "avoid",
     "singleQuote": true,
     "semi": false,
@@ -92,7 +92,9 @@
       "prettier-plugin-tailwindcss"
     ]
   },
-  "resolutions": {
-    "esbuild": "0.25.0"
+  "pnpm": {
+    "overrides": {
+      "esbuild": "0.25.0"
+    }
   }
 }
